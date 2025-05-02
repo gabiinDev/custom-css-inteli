@@ -1,0 +1,15 @@
+.vscode/**
+.gitignore
+**/*.ts
+**/*.map
+**/tsconfig.json
+node_modules/**
+src/**
+.editorconfig
+.eslintrc.json
+.prettierrc
+webpack.config.js
+package-lock.json
+
+# Asegúrate de NO excluir
+!assets/** 

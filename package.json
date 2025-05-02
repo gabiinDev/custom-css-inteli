@@ -1,0 +1,87 @@
+{
+  "name": "nf2-intellisense",
+  "displayName": "NF2 Style Intellisense",
+  "description": "Proporciona intellisense para los estilos del tema NF2",
+  "version": "0.1.0",
+  "icon": "assets/icons/icon-128x128.png",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:html",
+    "onLanguage:css",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onLanguage:vue"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "nf2-intellisense.showCssClasses",
+        "title": "NF2: Mostrar todas las clases CSS disponibles"
+      },
+      {
+        "command": "nf2-intellisense.showIcons",
+        "title": "NF2: Mostrar todos los iconos disponibles"
+      }
+    ],
+    "configuration": {
+      "title": "NF2 Style Intellisense",
+      "properties": {
+        "nf2-intellisense.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Habilitar/deshabilitar la extensión NF2 Style Intellisense"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./dist/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.15.3",
+    "@types/vscode": "^1.60.0",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "glob": "^11.0.2",
+    "mocha": "^11.2.2",
+    "typescript": "^5.8.3",
+    "vscode-test": "^1.5.2"
+  },
+  "dependencies": {
+    "css": "^3.0.0",
+    "vscode-languageclient": "^9.0.1"
+  },
+  "publisher": "nf2-team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nf2-team/nf2-intellisense.git"
+  },
+  "keywords": [
+    "css",
+    "intellisense",
+    "html",
+    "nf2",
+    "autocomplete",
+    "vue"
+  ],
+  "author": "NF2 Team",
+  "license": "MIT"
+}
