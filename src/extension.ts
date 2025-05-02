@@ -51,6 +51,8 @@ export function activate(context: vscode.ExtensionContext) {
   const icons = iconParser.parseIcons();
 
   // Registrar proveedores
+  // Nota: Proveedores mejorados con detección de contexto HTML
+  // para mostrar sugerencias relevantes según el tipo de elemento
   const cssClassProvider = new CssClassProvider(cssClasses);
   const iconProvider = new IconProvider(icons);
   const cssColorProvider = new CssColorProvider(cssColors);

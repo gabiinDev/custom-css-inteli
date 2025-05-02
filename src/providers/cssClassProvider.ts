@@ -1,5 +1,9 @@
 import * as vscode from "vscode";
 import { CssClass } from "../models/cssClass";
+import {
+  detectHtmlElement,
+  isClassRelevantForElement,
+} from "../utils/htmlUtils";
 
 /**
  * Proveedor de autocompletado y hover para clases CSS
@@ -37,6 +41,9 @@ export class CssClassProvider
       return undefined;
     }
 
+    // Detectar el tipo de elemento HTML actual
+    const currentElementType = detectHtmlElement(document, position);
+
     // Crear elementos de autocompletado para cada clase CSS
     return this.cssClasses.map((cssClass) => {
       const completionItem = new vscode.CompletionItem(
@@ -58,8 +65,21 @@ export class CssClassProvider
       // Añadir un filtro de texto para mejorar la búsqueda
       completionItem.filterText = `nf2 ${cssClass.name}`;
 
-      // Establecer mayor prioridad para aparecer antes en la lista
-      completionItem.sortText = `0000${cssClass.name}`;
+      // Establecer orden de aparición basado en la relevancia para el elemento HTML actual
+      const isRelevant = isClassRelevantForElement(
+        cssClass.name,
+        currentElementType
+      );
+
+      // Si la clase es relevante para el elemento actual, le damos alta prioridad (aparece primero)
+      // Si el elemento es <i>, destacamos especialmente las clases fa-
+      if (currentElementType === "i" && cssClass.name.startsWith("fa-")) {
+        completionItem.sortText = `0001${cssClass.name}`;
+      } else if (isRelevant) {
+        completionItem.sortText = `0002${cssClass.name}`;
+      } else {
+        completionItem.sortText = `0003${cssClass.name}`;
+      }
 
       return completionItem;
     });

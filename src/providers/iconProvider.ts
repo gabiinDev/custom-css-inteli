@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { Icon } from "../models/icon";
+import { detectHtmlElement } from "../utils/htmlUtils";
 
 /**
  * Proveedor de autocompletado y hover para iconos
@@ -33,7 +34,13 @@ export class IconProvider
       /className=["|'][\w\s-]*fa(-|\s+)$/.test(linePrefix) || // React className con fa-
       /\.fa-[\w-]*$/.test(linePrefix); // CSS selector fa-
 
-    if (!inIconContext) {
+    // Mejorado: También detectamos si estamos dentro de una etiqueta <i> con clases
+    const isInITag =
+      detectHtmlElement(document, position) === "i" &&
+      (/class=["|'][\w\s-]*$/.test(linePrefix) ||
+        /className=["|'][\w\s-]*$/.test(linePrefix));
+
+    if (!inIconContext && !isInITag) {
       return undefined;
     }
 
@@ -53,8 +60,14 @@ export class IconProvider
       // Añadir un filtro de texto para mejorar la búsqueda
       completionItem.filterText = `nf2 icon fa fa-${name}`;
 
-      // Establecer mayor prioridad para aparecer antes en la lista
-      completionItem.sortText = `0000${name}`;
+      // Establecer prioridad basada en contexto
+      if (isInITag) {
+        // Si estamos dentro de un tag <i>, darle mayor prioridad
+        completionItem.sortText = `0001${name}`;
+      } else {
+        // Prioridad normal para otros contextos
+        completionItem.sortText = `0002${name}`;
+      }
 
       // Determinar el texto de inserción según el contexto
       if (linePrefix.endsWith("fa-")) {
@@ -63,6 +76,9 @@ export class IconProvider
       } else if (linePrefix.endsWith("fa ")) {
         // Si hay "fa ", insertar "fa-nombre"
         completionItem.insertText = `fa-${name}`;
+      } else if (isInITag && !linePrefix.includes("fa")) {
+        // Si estamos en <i> sin fa, insertar "fa fa-nombre"
+        completionItem.insertText = `fa fa-${name}`;
       }
 
       return completionItem;

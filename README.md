@@ -8,6 +8,10 @@ Extensión para VSCode que proporciona intellisense para los estilos del tema NF
 - Visualización de propiedades al pasar el cursor
 - Vista previa de iconos FontAwesome 
 - Documentación integrada de estilos disponibles
+- **Nuevo:** Priorización inteligente de clases CSS según el contexto HTML
+  - Las clases relacionadas con `<i>` aparecen primero al trabajar con iconos
+  - Las clases relacionadas con `<li>` aparecen primero al trabajar con listas
+  - Y así con otros elementos HTML comunes
 
 ## Instalación
 
@@ -42,7 +46,8 @@ nf2-intellisense/
 │   │   └── icon.ts             # Modelo de icono
 │   ├── utils/                  # Utilidades
 │   │   ├── cssUtil.ts          # Utilidades para CSS
-│   │   └── fileUtil.ts         # Utilidades para manejo de archivos
+│   │   ├── fileUtil.ts         # Utilidades para manejo de archivos
+│   │   └── htmlUtils.ts        # Utilidades para análisis HTML
 │   └── test/                   # Pruebas unitarias
 ├── assets/                     # Recursos estáticos
 │   ├── css/                    # Archivos CSS procesados
