@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { getCurrentThemeInfo } from "../utils/themeInfoUtils";
 
 /**
  * Proveedor de autocompletado para colores CSS
@@ -70,9 +71,17 @@ export class CssColorProvider
    * @returns Markdown formateado
    */
   private createMarkdownForColor(colorName: string, hexValue: string): string {
+    // Obtener información del tema actual
+    const themeInfo = getCurrentThemeInfo();
+    const scopeText =
+      themeInfo.scope === "default" ? "" : ` (${themeInfo.scope})`;
+
     const markdown = new vscode.MarkdownString();
 
     markdown.appendMarkdown(`### NF2 Style Intellisense\n\n`);
+    markdown.appendMarkdown(
+      `**Tema actual:** ${themeInfo.name}${scopeText}\n\n`
+    );
     markdown.appendMarkdown(`**Color:** \`${colorName}\`\n\n`);
     markdown.appendMarkdown(`**Hex:** \`${hexValue}\`\n\n`);
 
@@ -88,9 +97,12 @@ export class CssColorProvider
       "css"
     );
 
-    // Agregar pie de documentación con referencia a la extensión
+    // Agregar pie de documentación con referencia a la extensión y enlace a documentación
     markdown.appendMarkdown(
-      `\n---\n*Proporcionado por NF2 Style Intellisense*`
+      `\n---\n*Proporcionado por NF2 Style Intellisense*\n\n`
+    );
+    markdown.appendMarkdown(
+      `Para más información, visita la documentación oficial: [NF2 Documentation](https://ux.gruposancorseguros.com/#/nf2)`
     );
 
     return markdown.value;

@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { Icon } from "../models/icon";
 import { detectHtmlElement } from "../utils/htmlUtils";
+import { getCurrentThemeInfo } from "../utils/themeInfoUtils";
 
 /**
  * Proveedor de autocompletado y hover para iconos
@@ -121,7 +122,13 @@ export class IconProvider
    * @returns Markdown formateado
    */
   private createMarkdownForIcon(icon: Icon): string {
+    // Obtener información del tema actual
+    const themeInfo = getCurrentThemeInfo();
+    const scopeText =
+      themeInfo.scope === "default" ? "" : ` (${themeInfo.scope})`;
+
     let markdown = `### NF2 Style Intellisense\n\n`;
+    markdown += `**Tema actual:** ${themeInfo.name}${scopeText}\n\n`;
     markdown += `**Icon:** \`${icon.name}\`\n\n`;
     markdown += `**Unicode:** \`${icon.unicode}\`\n\n`;
 
@@ -133,8 +140,9 @@ export class IconProvider
     markdown += icon.toCss();
     markdown += "\n```\n";
 
-    // Agregar pie de documentación con referencia a la extensión
-    markdown += `\n---\n*Proporcionado por NF2 Style Intellisense*`;
+    // Agregar pie de documentación con referencia a la extensión y enlace a documentación
+    markdown += `\n---\n*Proporcionado por NF2 Style Intellisense*\n\n`;
+    markdown += `Para más información, visita la documentación oficial: [NF2 Documentation](https://ux.gruposancorseguros.com/#/nf2)`;
 
     return markdown;
   }

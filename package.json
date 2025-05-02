@@ -2,7 +2,7 @@
   "name": "nf2-intellisense",
   "displayName": "NF2 Style Intellisense",
   "description": "Proporciona intellisense para los estilos del tema NF2",
-  "version": "0.1.0",
+  "version": "0.2.3",
   "icon": "assets/icons/icon-128x128.png",
   "engines": {
     "vscode": "^1.60.0"
@@ -25,12 +25,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "nf2-intellisense.showCssClasses",
-        "title": "NF2: Mostrar todas las clases CSS disponibles"
+        "command": "nf2-intellisense.openDocumentation",
+        "title": "NF2: Documentación en línea"
       },
       {
-        "command": "nf2-intellisense.showIcons",
-        "title": "NF2: Mostrar todos los iconos disponibles"
+        "command": "nf2-intellisense.selectTheme",
+        "title": "NF2: Seleccionar tema"
+      },
+      {
+        "command": "nf2-intellisense.clearCache",
+        "title": "NF2: Limpiar caché"
+      },
+      {
+        "command": "nf2-intellisense.showLogs",
+        "title": "NF2: Mostrar logs"
       }
     ],
     "configuration": {
@@ -40,6 +48,39 @@
           "type": "boolean",
           "default": true,
           "description": "Habilitar/deshabilitar la extensión NF2 Style Intellisense"
+        },
+        "nf2-intellisense.theme": {
+          "type": "string",
+          "default": "GSS",
+          "enum": [
+            "GSS",
+            "Prevenet",
+            "Intermediarios",
+            "Rural"
+          ],
+          "enumDescriptions": [
+            "GSS - Grupo Sancor Seguros",
+            "Prevenet - Medicina prepaga GSS",
+            "Intermediarios - Portal para productores",
+            "Rural - Agroseguro"
+          ],
+          "description": "Tema de NF2 a utilizar"
+        },
+        "nf2-intellisense.logLevel": {
+          "type": "string",
+          "default": "INFO",
+          "enum": [
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR"
+          ],
+          "description": "Nivel de log para la extensión"
+        },
+        "nf2-intellisense.useColoredLogs": {
+          "type": "boolean",
+          "default": true,
+          "description": "Activar colores en los mensajes de log (azul para INFO, verde para SUCCESS, naranja para WARNING, rojo para ERROR)"
         }
       }
     }
@@ -69,10 +110,10 @@
     "css": "^3.0.0",
     "vscode-languageclient": "^9.0.1"
   },
-  "publisher": "nf2-team",
+  "publisher": "gss-team",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nf2-team/nf2-intellisense.git"
+    "url": "https://github.com/gss-team/nf2-intellisense.git"
   },
   "keywords": [
     "css",
@@ -82,6 +123,6 @@
     "autocomplete",
     "vue"
   ],
-  "author": "NF2 Team",
+  "author": "GSS Team",
   "license": "MIT"
 }

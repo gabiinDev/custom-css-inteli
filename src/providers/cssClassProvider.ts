@@ -4,6 +4,7 @@ import {
   detectHtmlElement,
   isClassRelevantForElement,
 } from "../utils/htmlUtils";
+import { getCurrentThemeInfo } from "../utils/themeInfoUtils";
 
 /**
  * Proveedor de autocompletado y hover para clases CSS
@@ -119,7 +120,13 @@ export class CssClassProvider
    * @returns Markdown formateado
    */
   private createMarkdownForClass(cssClass: CssClass): string {
+    // Obtener información del tema actual
+    const themeInfo = getCurrentThemeInfo();
+    const scopeText =
+      themeInfo.scope === "default" ? "" : ` (${themeInfo.scope})`;
+
     let markdown = `### NF2 Style Intellisense\n\n`;
+    markdown += `**Tema actual:** ${themeInfo.name}${scopeText}\n\n`;
     markdown += `**Clase:** \`.${cssClass.name}\`\n\n`;
 
     if (cssClass.description) {
@@ -132,8 +139,9 @@ export class CssClassProvider
       markdown += "\n```\n";
     }
 
-    // Agregar pie de documentación con referencia a la extensión
-    markdown += `\n---\n*Proporcionado por NF2 Style Intellisense*`;
+    // Agregar pie de documentación con referencia a la extensión y enlace a documentación
+    markdown += `\n---\n*Proporcionado por NF2 Style Intellisense*\n\n`;
+    markdown += `Para más información, visita la documentación oficial: [NF2 Documentation](https://ux.gruposancorseguros.com/#/nf2)`;
 
     return markdown;
   }
